@@ -1,6 +1,7 @@
 from random import randint
 from math import ceil
-from entity import Entity
+from entities.entity import Entity
+from dependencies import validate_int
 
 class Player(Entity):
 	def __init__(self, name=None):
@@ -72,21 +73,21 @@ class Player(Entity):
 		elif user_input == 2:
 			input(f"{self.name} passe son chemin... (Appuyez sur Entrée pour continuer)")
 
-	def required_xp_to_next_level():
+	def required_xp_to_next_level(self):
 		return ceil((self.level*25)*0.8)
 
-	def earn_xp(amount):
+	def earn_xp(self, amount):
 		self.xp += amount
 		print(f"{self.name} gagne {amount} points d'expérience.")
-		if self.xp >= required_xp_to_next_level():
-			leftover = self.xp - required_xp_to_next_level()
+		if self.xp >= self.required_xp_to_next_level():
+			leftover = self.xp - self.required_xp_to_next_level()
 			self.xp = 0+leftover
 			level_up()
-		print(f"Point d'expérience requis pour passer au niveau supérieur: {required_xp_to_next_level()}")
+		print(f"Point d'expérience requis pour passer au niveau supérieur: {self.required_xp_to_next_level()-self.xp}")
 
 
 
-	def level_up():
+	def level_up(self):
 		self.max_hp+=5
 		self.hp = max_hp
 		self.level+=1
