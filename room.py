@@ -14,6 +14,7 @@ def generate_room(player, probabilities=[25, 25, 25]):
 	probs = define_probs(probabilities)
 	if room_chance < probs[0]:
 		enemy = Enemy("Squelette")
+		enemy.set_max_hp(player)
 		print(f"{player.name} tombe nez à nez avec un {enemy.name.lower()} !!")
 		enter_enemy_room(player, enemy)
 	elif room_chance < probs[1]:

@@ -36,7 +36,7 @@ class Player(Entity):
 		user_input = validate_int("Que voulez vous faire ?\n1 - Combattre\n2 - Fuir\n", ["1", "2"])
 		if user_input == 1:
 			if self.hits_enemy():
-				enemy.reduce_hp()
+				enemy.reduce_hp(self.level)
 			else:
 				self.reduce_hp()
 			return 1
