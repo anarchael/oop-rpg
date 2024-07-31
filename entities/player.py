@@ -1,31 +1,13 @@
 from random import randint
-from dependencies import validate_int
+from math import ceil
+from entity import Entity
 
-# Super-classe Entity
-class Entity:
-
-	def __init__(self, name, max_hp):
-		self.name = name
-		self.max_hp = max_hp
-	
-	def reduce_hp(self, amount=1): #Réduit les pv de l'entité
-		self.hp -= amount
-		print(f"{self.name} a perdu {amount} points de vie. (PV actuels: {self.hp}/{self.max_hp})")
-
-	def heal_hp(self, amount=1):  # Soigne les pv de l'entité
-		if self.hp+amount > self.max_hp:
-			amount = self.max_hp-self.hp
-		self.hp += amount
-		print(f"{self.name} a été soigné de {amount} points de vie ! (PV actuels: {self.hp}/{self.max_hp})")
-
-	def is_dead(self): # Vérifie si l'entité est morte
-		return self.hp <= 0
-
-# Classe Player héritant de Entity	
 class Player(Entity):
 	def __init__(self, name=None):
 		super(Player, self).__init__(name, 20)
 		self.hp = self.max_hp
+		self.xp = 0
+		self.level = 1
 		self.hit_chance = 60
 		self.is_alive = True
 		self.score = 0
@@ -90,15 +72,26 @@ class Player(Entity):
 		elif user_input == 2:
 			input(f"{self.name} passe son chemin... (Appuyez sur Entrée pour continuer)")
 
-# Classe Enemy héritant de Entity
-class Enemy(Entity):
+	def required_xp_to_next_level():
+		return ceil((self.level*25)*0.8)
 
-	def __init__(self, name):
-		super(Enemy, self).__init__(name, randint(5,10))
-		self.name = name
-		self.hp = self.max_hp
+	def earn_xp(amount):
+		self.xp += amount
+		print(f"{self.name} gagne {amount} points d'expérience.")
+		if self.xp >= required_xp_to_next_level():
+			leftover = self.xp - required_xp_to_next_level()
+			self.xp = 0+leftover
+			level_up()
+		print(f"Point d'expérience requis pour passer au niveau supérieur: {required_xp_to_next_level()}")
 
-# Valeurs booléenes non liées à des entités
+
+
+	def level_up():
+		self.max_hp+=5
+		self.hp = max_hp
+		self.level+=1
+		print(f"{self.name} a gagné en niveau !!\nVous gagnez 5 pvs supplémentaires et votre vie est restaurée !!")
+
 def is_mimic():
 	return randint(0,100) < 15
 

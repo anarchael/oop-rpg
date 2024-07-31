@@ -1,4 +1,6 @@
-from classes import Player, Enemy
+from entities.enemy import Enemy
+from entities.player import Player
+
 from random import randint
 
 # Fonction pour valider les choix du joueur
@@ -41,6 +43,7 @@ def enter_enemy_room(player, enemy, probabilities=[10, 30, 30]):
 			break
 	if not player.is_dead():
 		if action != 2:
+			earn_xp(5)
 			player.add_score(5, f"{player.name} a vaincu {enemy.name}")
 		generate_room(player, probabilities)
 	else:
