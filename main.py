@@ -1,4 +1,4 @@
-from classes import Player
+from entities.player import Player
 from room import generate_room
 
 player = Player("Arthur")
